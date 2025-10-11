@@ -6632,39 +6632,40 @@
 
     <script>
         function startCountdown(targetDate, countdownIdPrefix) {
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-
-                if (distance < 0) {
-                    document.querySelectorAll(`#${countdownIdPrefix} .ladi-countdown-text span`)
-                        .forEach(span => span.innerText = "00");
-                    clearInterval(interval);
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                if (countdownIdPrefix === "COUNTDOWN1") {
-                    document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM1 span").innerText = String(days).padStart(2, '0');
-                    document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM2 span").innerText = String(hours).padStart(2, '0');
-                    document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM3 span").innerText = String(minutes).padStart(2, '0');
-                    document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM4 span").innerText = String(seconds).padStart(2, '0');
-                } else {
-                    document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM11 span").innerText = String(days).padStart(2, '0');
-                    document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM21 span").innerText = String(hours).padStart(2, '0');
-                    document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM31 span").innerText = String(minutes).padStart(2, '0');
-                    document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM41 span").innerText = String(seconds).padStart(2, '0');
-                }
-
+        let interval; // <-- khai báo trước
+    
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+    
+            if (distance < 0) {
+                document.querySelectorAll(`#${countdownIdPrefix} .ladi-countdown-text span`)
+                    .forEach(span => span.innerText = "00");
+                clearInterval(interval);
+                return;
             }
-
-            updateCountdown();
-            const interval = setInterval(updateCountdown, 1000);
+    
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+            if (countdownIdPrefix === "COUNTDOWN1") {
+                document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM1 span").innerText = String(days).padStart(2, '0');
+                document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM2 span").innerText = String(hours).padStart(2, '0');
+                document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM3 span").innerText = String(minutes).padStart(2, '0');
+                document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM4 span").innerText = String(seconds).padStart(2, '0');
+            } else {
+                document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM11 span").innerText = String(days).padStart(2, '0');
+                document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM21 span").innerText = String(hours).padStart(2, '0');
+                document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM31 span").innerText = String(minutes).padStart(2, '0');
+                document.querySelector("#" + countdownIdPrefix + " #COUNTDOWN_ITEM41 span").innerText = String(seconds).padStart(2, '0');
+            }
         }
+    
+        interval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // gọi sau khi interval đã được khởi tạo
+    }
 
         // Countdown cho div COUNTDOWN1 -> 9/10/2025 10:30
         startCountdown(new Date("2025-10-09T10:30:00").getTime(), "COUNTDOWN1");
